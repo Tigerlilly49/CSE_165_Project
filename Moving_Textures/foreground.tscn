@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bta8wlesl4owb"]
+
+[ext_resource type="Script" path="res://Moving_Textures/foreground.gd" id="1_fnq4m"]
+[ext_resource type="Texture2D" uid="uid://bl6cjblvsohhn" path="res://Moving_Textures/foreground.png" id="2_attu5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1gp5e"]
+size = Vector2(1453, 36)
+
+[node name="Foreground" type="Node2D"]
+script = ExtResource("1_fnq4m")
+
+[node name="foreground_area" type="Area2D" parent="."]
+z_index = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="foreground_area"]
+z_index = 2
+position = Vector2(727.5, 0)
+shape = SubResource("RectangleShape2D_1gp5e")
+
+[node name="Sprite2D" type="Sprite2D" parent="foreground_area"]
+z_index = 2
+position = Vector2(754, -11.5)
+scale = Vector2(1, 0.345)
+texture = ExtResource("2_attu5")

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://tkdsinrxb07x"]
+
+[ext_resource type="Script" path="res://Moving_Textures/background.gd" id="1_21i2r"]
+[ext_resource type="Texture2D" uid="uid://vlrvwbymlc3t" path="res://Moving_Textures/background.png" id="2_gvdkv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vb5xp"]
+size = Vector2(1453, 36)
+
+[node name="Background" type="Node2D"]
+script = ExtResource("1_21i2r")
+
+[node name="background_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="background_area"]
+position = Vector2(727.5, 0)
+shape = SubResource("RectangleShape2D_vb5xp")
+
+[node name="Sprite2D" type="Sprite2D" parent="background_area"]
+position = Vector2(775, -140.25)
+scale = Vector2(1, 1.5375)
+texture = ExtResource("2_gvdkv")

@@ -1,0 +1,129 @@
+[gd_scene load_steps=9 format=3 uid="uid://bg48h7ew0xn51"]
+
+[ext_resource type="PackedScene" uid="uid://b7kr4qlu38f" path="res://Maps/level1.tscn" id="1_8dg5b"]
+[ext_resource type="Script" path="res://game.gd" id="1_xmfbh"]
+[ext_resource type="Texture2D" uid="uid://hfg81kvrecn5" path="res://Bird.png" id="3_8qyuf"]
+[ext_resource type="PackedScene" uid="uid://c53h3nwf8qs4" path="res://Maps/deathscreen.tscn" id="4_08e6q"]
+[ext_resource type="Texture2D" uid="uid://332jyhrnxomg" path="res://points background.png" id="5_cspuw"]
+
+[sub_resource type="GDScript" id="GDScript_l7vtk"]
+script/source = "extends CharacterBody2D
+
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -300.0
+
+# Get the gravity from the project settings to be synced with RigidBody nodes.
+var gravity = ProjectSettings.get_setting(\"physics/2d/default_gravity\")
+
+
+func _physics_process(delta):
+	# Add the gravity.
+	if not is_on_floor() && not get_parent().is_dead:
+		velocity.y += gravity * delta
+
+	# Handle Jump.
+	if Input.is_action_just_pressed(\"ui_accept\")  && not get_parent().is_dead:
+		velocity.y = JUMP_VELOCITY
+		
+	if get_parent().is_dead:
+		velocity.y = 0
+		
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	#var direction = Input.get_axis(\"ui_left\", \"ui_right\")
+	#if direction:
+	#	velocity.x = direction * SPEED
+	#else:
+	#	velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	move_and_slide()
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uu2mv"]
+radius = 6.08276
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4hf2m"]
+size = Vector2(30, 624)
+
+[node name="Game" type="Node2D"]
+position = Vector2(1, 0)
+script = ExtResource("1_xmfbh")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="deathscreen" parent="." instance=ExtResource("4_08e6q")]
+z_index = -1
+
+[node name="Restart" type="Button" parent="deathscreen"]
+offset_left = -101.0
+offset_top = 166.0
+offset_right = 102.0
+offset_bottom = 263.0
+shortcut_feedback = false
+shortcut_in_tooltip = false
+text = "Restart"
+
+[node name="level1" parent="." instance=ExtResource("1_8dg5b")]
+z_index = -1
+position = Vector2(6, -3)
+
+[node name="FlappyBird" type="CharacterBody2D" parent="."]
+visibility_layer = 1023
+z_index = 5
+position = Vector2(-400, 0)
+script = SubResource("GDScript_l7vtk")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="FlappyBird"]
+scale = Vector2(2, 2)
+shape = SubResource("CircleShape2D_uu2mv")
+
+[node name="crash_detector" type="Area2D" parent="FlappyBird"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FlappyBird/crash_detector"]
+scale = Vector2(2, 2)
+shape = SubResource("CircleShape2D_uu2mv")
+
+[node name="Sprite2D" type="Sprite2D" parent="FlappyBird"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_8qyuf")
+
+[node name="MakeNew" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="Deadzone" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Deadzone"]
+polygon = PackedVector2Array(-329, 333, -602, 328, -609, -364, -358, -359, -366, -398, -744, -426, -699, 366, -326, 369)
+
+[node name="SpeedUp" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="PointTrack" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PointTrack"]
+position = Vector2(-467, 1)
+shape = SubResource("RectangleShape2D_4hf2m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 6
+position = Vector2(490, -291)
+texture = ExtResource("5_cspuw")
+
+[node name="Points" type="RichTextLabel" parent="."]
+z_index = 6
+offset_left = 413.0
+offset_top = -316.0
+offset_right = 567.0
+offset_bottom = -265.0
+text = "Points: 0
+Highscore: 0"
+
+[connection signal="pressed" from="deathscreen/Restart" to="." method="_on_restart_pressed"]
+[connection signal="area_entered" from="FlappyBird/crash_detector" to="." method="_on_crash_detector_area_entered"]
+[connection signal="timeout" from="MakeNew" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Deadzone" to="." method="_on_deadzone_area_entered"]
+[connection signal="area_exited" from="Deadzone" to="." method="_on_deadzone_area_exited"]
+[connection signal="timeout" from="SpeedUp" to="." method="_on_speed_up_timeout"]
+[connection signal="area_entered" from="PointTrack" to="." method="_on_point_track_area_entered"]

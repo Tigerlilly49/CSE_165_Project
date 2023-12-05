@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://c53h3nwf8qs4"]
+
+[ext_resource type="Texture2D" uid="uid://ee8ddvp2pr0a" path="res://Maps/Deathscene.png" id="1_3lao7"]
+
+[node name="deathscreen" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+format = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="TileMap"]
+scale = Vector2(0.894444, 0.894444)
+texture = ExtResource("1_3lao7")

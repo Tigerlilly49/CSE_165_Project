@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7kr4qlu38f"]
+
+[ext_resource type="Texture2D" uid="uid://dlhnf8thv4w1n" path="res://Maps/Background.jpg" id="1_5xifi"]
+
+[node name="level1" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+format = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="TileMap"]
+position = Vector2(1.7223, -1.00001)
+scale = Vector2(0.912934, 0.911111)
+texture = ExtResource("1_5xifi")

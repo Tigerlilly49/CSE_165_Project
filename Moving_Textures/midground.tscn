@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfkn6dbnchdfu"]
+
+[ext_resource type="Script" path="res://Moving_Textures/midground.gd" id="1_6358q"]
+[ext_resource type="Texture2D" uid="uid://d4jbly2n835nw" path="res://Moving_Textures/midground.png" id="2_qxqpe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dn8x6"]
+size = Vector2(1453, 36)
+
+[node name="Midground" type="Node2D"]
+z_index = 1
+script = ExtResource("1_6358q")
+
+[node name="midground_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="midground_area"]
+position = Vector2(727.5, 0)
+shape = SubResource("RectangleShape2D_dn8x6")
+
+[node name="Sprite2D" type="Sprite2D" parent="midground_area"]
+position = Vector2(775, -82)
+texture = ExtResource("2_qxqpe")
