@@ -45,29 +45,25 @@ func _physics_process(delta):
 radius = 6.08276
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hf2m"]
-size = Vector2(30, 624)
+size = Vector2(30, 533)
 
 [node name="Game" type="Node2D"]
 position = Vector2(1, 0)
 script = ExtResource("1_xmfbh")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="PointsBackground" type="Sprite2D" parent="."]
+z_index = 4096
+position = Vector2(485, -289)
+texture = ExtResource("5_cspuw")
 
-[node name="deathscreen" parent="." instance=ExtResource("4_08e6q")]
-z_index = -1
-
-[node name="Restart" type="Button" parent="deathscreen"]
-offset_left = -101.0
-offset_top = 166.0
-offset_right = 102.0
-offset_bottom = 263.0
-shortcut_feedback = false
-shortcut_in_tooltip = false
-text = "Restart"
-
-[node name="level1" parent="." instance=ExtResource("1_8dg5b")]
-z_index = -1
-position = Vector2(6, -3)
+[node name="Points" type="RichTextLabel" parent="PointsBackground"]
+unique_name_in_owner = true
+offset_left = -77.0
+offset_top = -24.0
+offset_right = 77.0
+offset_bottom = 27.0
+text = "Points: 0
+Highscore: 0"
 
 [node name="FlappyBird" type="CharacterBody2D" parent="."]
 visibility_layer = 1023
@@ -85,9 +81,27 @@ shape = SubResource("CircleShape2D_uu2mv")
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_uu2mv")
 
-[node name="Sprite2D" type="Sprite2D" parent="FlappyBird"]
+[node name="BirdModel" type="Sprite2D" parent="FlappyBird"]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_8qyuf")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="level1" parent="." instance=ExtResource("1_8dg5b")]
+z_index = -1
+position = Vector2(6, -3)
+
+[node name="deathscreen" parent="." instance=ExtResource("4_08e6q")]
+visible = false
+
+[node name="Restart" type="Button" parent="deathscreen"]
+offset_left = -101.0
+offset_top = 166.0
+offset_right = 102.0
+offset_bottom = 263.0
+shortcut_feedback = false
+shortcut_in_tooltip = false
+text = "Restart"
 
 [node name="MakeNew" type="Timer" parent="."]
 wait_time = 3.0
@@ -103,25 +117,11 @@ wait_time = 5.0
 [node name="PointTrack" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PointTrack"]
-position = Vector2(-467, 1)
+position = Vector2(-467, -6.5)
 shape = SubResource("RectangleShape2D_4hf2m")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 6
-position = Vector2(490, -291)
-texture = ExtResource("5_cspuw")
-
-[node name="Points" type="RichTextLabel" parent="."]
-z_index = 6
-offset_left = 413.0
-offset_top = -316.0
-offset_right = 567.0
-offset_bottom = -265.0
-text = "Points: 0
-Highscore: 0"
-
-[connection signal="pressed" from="deathscreen/Restart" to="." method="_on_restart_pressed"]
 [connection signal="area_entered" from="FlappyBird/crash_detector" to="." method="_on_crash_detector_area_entered"]
+[connection signal="pressed" from="deathscreen/Restart" to="." method="_on_restart_pressed"]
 [connection signal="timeout" from="MakeNew" to="." method="_on_timer_timeout"]
 [connection signal="area_entered" from="Deadzone" to="." method="_on_deadzone_area_entered"]
 [connection signal="area_exited" from="Deadzone" to="." method="_on_deadzone_area_exited"]

@@ -26,9 +26,6 @@ func _ready():
 	make_wall()
 	make_cloud()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 func increase_speed():
 	start_speed_walls *= 1.05
@@ -48,32 +45,32 @@ func make_background(st:bool):
 	object._set_speed(start_speed_back)
 	object.first = st
 	object._set_speed(start_speed_back)
-	add_child(object)
+	call_deferred("add_child", object)
 
 func make_midground(st:bool):
 	var object = mid.instantiate()
 	object._set_speed(start_speed_mid)
 	object.first = st
 	object._set_speed(start_speed_mid)
-	add_child(object)
+	call_deferred("add_child", object)
 
 func make_foreground(st: bool):
 	var object = fore.instantiate()
 	object._set_speed(start_speed_fore)
 	object.first = st
 	object._set_speed(start_speed_fore)
-	add_child(object)
+	call_deferred("add_child", object)
 
 func make_cloud():
 	var object = clo.instantiate()
 	object._set_speed(start_speed_clouds)
-	add_child(object)
+	call_deferred("add_child", object)
 
 func make_wall():
 	$MakeNew.start(make_New);
 	var object = mov.instantiate()
 	object._set_speed(start_speed_walls)
-	add_child(object)
+	call_deferred("add_child", object)
 	
 func _on_timer_timeout():
 	make_wall()
@@ -87,7 +84,7 @@ func _on_crash_detector_area_entered(area):
 			_on_death()
 		
 func _on_death():
-	$level1.visible = false
+	$deathscreen.visible = true
 	is_dead = true
 	$MakeNew.stop()
 	
@@ -100,7 +97,7 @@ func _on_death():
 	start_speed_back = 150
 
 func _on_restart_pressed(): #remove deathscreen, reset bird position
-	$level1.visible = true
+	$deathscreen.visible = false
 	$FlappyBird.position = Vector2(-400,0)
 	$deathscreen/Restart.release_focus()
 	is_dead = false
@@ -109,7 +106,7 @@ func _on_restart_pressed(): #remove deathscreen, reset bird position
 	make_midground(true)
 	make_background(true)
 	var text = "Points: " + str(points) + "\nHighscore: " + str(highscore)
-	$Points.set_text(text)
+	%Points.set_text(text)
 	
 	# Replace with function body.
 
@@ -136,8 +133,8 @@ func _on_deadzone_area_entered(area):
 
 func _on_point_track_area_entered(area):
 	if(area.get_parent().type == "wall"):
-		points += 0.5
+		points += 1
 		if(points > highscore):
 			highscore = points;
 		var text = "Points: " + str(points) + "\nHighscore: " + str(highscore)
-		$Points.set_text(text)
+		%Points.set_text(text)
