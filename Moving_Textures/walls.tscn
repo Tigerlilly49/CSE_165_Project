@@ -10,16 +10,14 @@ size = Vector2(52, 650)
 z_index = 4
 script = ExtResource("1_8p3r2")
 
-[node name="Lower" type="Area2D" parent="."]
+[node name="WallDetector" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Lower"]
-position = Vector2(0, 425)
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WallDetector"]
+position = Vector2(0, -325)
 shape = SubResource("RectangleShape2D_v48e2")
 
-[node name="Upper" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Upper"]
-position = Vector2(0, -325)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallDetector"]
+position = Vector2(0, 425)
 shape = SubResource("RectangleShape2D_v48e2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
